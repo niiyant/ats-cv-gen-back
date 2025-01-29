@@ -56,5 +56,5 @@
 ### languages
   - Datos de la educación.
   - Vinculada a la tabla cv.
-  - **Campos/Columnas:** id (PK), cv_id (FK), speech (varchar-30), level (text["basic", "intermediate", "advanced"]), created_at (timestamptz), updated_at (timestamptz). NOT NULL: id, cv_id
+  - **Campos/Columnas:** id (PK), cv_id (FK), speech (varchar-30), level (text["basic", "intermediate", "advanced"]), certificate (varchar-30), created_at (timestamptz), updated_at (timestamptz). NOT NULL: id, cv_id
 
