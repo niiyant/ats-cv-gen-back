@@ -1,30 +1,34 @@
-version: "3.8"
-
 services:
   app:
     build: .
     container_name: fastapi_app
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
-      - postgres
+      postgres_db:
+        condition: service_healthy # Espera hasta que PostgreSQL esté "healthy"
+    # ... resto de la configuración
     environment:
-      - DATABASE_URL=postgresql://postgres:admin@postgres_db:5432/mydatabase
-
+      DATABASE_URL: postgresql://postgres:admin@postgres_db:5432/mydatabase
     volumes:
       - .:/app
     restart: always
 
-  postgres:
-    image: postgres:latest
+  postgres_db:
+    image: postgres:16
     container_name: postgres_db
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: mydatabase
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mydatabase"] # Verifica si la BD está lista
+      interval: 5s                 # Intento cada 5 segundos
+      timeout: 5s                  # Máximo 5 segundos por intento
+      retries: 5    # Número de reintentos antes de marcar como "unhealthy"
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
