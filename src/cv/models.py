@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship
 from src.database import Base
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
@@ -17,7 +17,8 @@ class Cv(Base):
     updated_at = Column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
     
     user = relationship("User", back_populates="cv")
-    experences = relationship("Experence", back_populates="cv", cascade="all, delete-orphan")  
+    
+    experiences = relationship("Experience", back_populates="cv", cascade="all, delete-orphan")  
     skills = relationship("Skill", back_populates="cv", cascade="all, delete-orphan")
     soft_skills = relationship("Soft_Skill", back_populates="cv", cascade="all, delete-orphan")
     certifications = relationship("Certifications", back_populates="cv", cascade="all, delete-orphan")
@@ -26,8 +27,8 @@ class Cv(Base):
     languages = relationship("Language", back_populates="cv", cascade="all, delete-orphan")
     
     
-class Experence(Base):
-    __tablename__ = "experence"
+class Experience(Base):
+    __tablename__ = "experience"
     id = Column(UUID(as_uuid=True), primary_key=True,default=uuid.uuid4(), index=True)
     cv_id = Column(UUID(as_uuid=True), ForeignKey('cv.id', ondelete='CASCADE'))
 
@@ -67,7 +68,7 @@ class Soft_Skill(Base):
     
     cv = relationship("Cv", back_populates="soft_skill")
     
-class Certifications(Base):
+class Certification(Base):
     __tablename__ = "certifications"
     id = Column(UUID(as_uuid=True), primary_key=True,default=uuid.uuid4(), index=True)
     cv_id = Column(UUID(as_uuid=True), ForeignKey('cv.id', ondelete='CASCADE'))

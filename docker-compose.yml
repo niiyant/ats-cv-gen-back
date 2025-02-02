@@ -4,6 +4,7 @@ services:
     container_name: fastapi_app
     ports:
       - "8001:8000"
+    command: sh -c "./wait-for-postgres.sh && uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       postgres_db:
         condition: service_healthy # Espera hasta que PostgreSQL esté "healthy"
@@ -33,4 +34,5 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
+
   postgres_data:
