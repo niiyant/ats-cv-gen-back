@@ -1,4 +1,4 @@
-from sqlalchemy import Column, BigInteger, String, Text, ForeignKey, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Boolean
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from src.database import Base
@@ -7,8 +7,8 @@ import uuid
 from datetime import datetime
 
 
-class User(Base):
-    __tablename__ = "users"
+class User(Base): # feat: add user model
+    __tablename__ = "users" 
     
     #Identificción del usuario
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
@@ -25,9 +25,9 @@ class User(Base):
 class Cv(Base):
     __tablename__ = "cv"
     
-    id = Column(UUID(as_uuid=True), primary_key=True,default=uuid.uuid4, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True,default=uuid.uuid4, index=True) # perf: remove parenthesis from uuid.uuid4 for default value increment.
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'))
-    telephone = Column(BigInteger, index=True)
+    telephone = Column(Integer, index=True)
     role = Column(String, index=True)
     summary= Column(Text, unique=True, index=True)
     
