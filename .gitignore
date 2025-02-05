@@ -36,6 +36,9 @@ poetry.lock
 docker-compose.override.yml
 docker-compose.dev.yml
 .Dockerfile
+Dockerfile
+docker-compose.yml
+
 
 # Logs y reportes
 *.log
@@ -82,3 +85,6 @@ package-lock.json
 .github/
 .circleci/
 .gitlab-ci.yml
+
+# scripts
+*.sh

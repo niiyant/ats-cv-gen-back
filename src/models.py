@@ -44,9 +44,9 @@ class Cv(Base):
     languages = relationship("Language", back_populates="cv", cascade="all, delete-orphan")
     
     user = relationship("user", back_populates="cvs")
-    
-class Experience(Base):
-    __tablename__ = "experience"
+    ''' Losnombres de las clases dberían unificrse al singular, ejemplo Experience a Experiences, Skill a Skills'''
+class Experience(Base): #correción de nombre de la clase por de Experence a Experience
+    __tablename__ = "experience" #correción de nombre de la tabla por de Experences a Experience
     id = Column(UUID(as_uuid=True), primary_key=True,default=uuid.uuid4, index=True)
     cv_id = Column(UUID(as_uuid=True), ForeignKey('cv.id', ondelete='CASCADE'))
 
@@ -59,7 +59,7 @@ class Experience(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
-    cv = relationship("Cv", back_populates="experience")
+    cv = relationship("Cv", back_populates="experience") #correción de nombre de la relación por de cv a experience
     
 class Skill(Base):
     __tablename__ = "skill" 
