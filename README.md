@@ -24,7 +24,7 @@ Este proyecto es una API construida con FastAPI para la generación de CVs y aut
    ```
 
    Ajusta las variable de entorno según tu configuración.
-   DATABASE_URL=postgresql://postgres:admin@postgres_db:5432/mydatabase
+   DATABASE_URL='postgresql://share_it_ats_user:10x5C.0_0T0N7@35.226.215.172:5432/share_it_ats'
 
 3. Construye y levanta los contenedores:
 
@@ -32,7 +32,7 @@ Este proyecto es una API construida con FastAPI para la generación de CVs y aut
    docker-compose up --build
    ```
 
-4. Para detener los contenedores, usa:
+4. Para detener los contenedores:
    ```bash
    docker-compose down
    ```
@@ -44,7 +44,7 @@ Una vez que la aplicación esté en ejecución, puedes acceder a la documentaci�
 - Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
 - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
-## Acceso a la base de datos
+## Acceso a la base de datos en la nube
 
 Para conectarte a la base de datos PostgreSQL dentro del contenedor, usa el siguiente comando:
 
@@ -54,11 +54,11 @@ Para conectarte a la base de datos PostgreSQL dentro del contenedor, usa el sigu
 
 También puedes conectarte desde tu máquina local usando herramientas como DBeaver o pgAdmin con la siguiente configuración:
 
-- Host: `localhost`
+- Host: `35.226.215.172`
 - Puerto: `5432`
-- Usuario: `postgres`
-- Contraseña: `admin`
-- Base de datos: `mydatabase`
+- Usuario: `share_it_ats_user`
+- Contraseña: `10x5C.0_0T0N7`
+- Base de datos: `share_it_ats`
   
 
 ## Migraciones de base de datos
@@ -67,29 +67,25 @@ Este proyecto utiliza Alembic para la gestión de migraciones de la base de dato
 
 ### Crear una nueva migración
 
-Para generar una nueva migración automáticamente según los modelos de SQLAlchemy:
-
 ```bash
 docker exec -it fastapi_app alembic revision --autogenerate -m "descripcion de la migracion"
 ```
 
 ### Aplicar migraciones
 
-Para aplicar las migraciones a la base de datos:
-
 ```bash
 docker exec -it fastapi_app alembic upgrade head
 ```
 
-### Revertir migraciones
-
-Para deshacer la última migración:
+### Revertir última migracion
 
 ```bash
 docker exec -it fastapi_app alembic downgrade -1
 ```
 
-## 📌 Uso del Logger en FastAPI
+**Nota:** Como la base de datos está en la nube, cualquier migración afectará a todos los usuarios conectados.
+
+## 📌 Logging en FastAPI
 
 En el desarrollo de aplicaciones, especialmente en entornos productivos, es fundamental llevar un registro detallado de eventos, advertencias y errores.  
 
@@ -108,7 +104,7 @@ from src.logger_config import logger
 
 logger.debug("Para depuración detallada")
 logger.info("Información general")
-logger.warning("Advertencias")  # Advertencias
+logger.warning("Advertencias") 
 logger.error("Errores que afectan la ejecución")
 logger.critical("Errores graves")
 ```
